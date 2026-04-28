@@ -13,6 +13,7 @@ Easy-Quant/
 │   ├── research_v2_hmm_explore.py    # 实验记录：HMM 宏观择时（已弃用）
 │   └── trade_v2_final.py             # 回测执行引擎
 ├── assets/
+│   ├── backtest_v1.png                # V1 回测曲线
 │   └── backtest_v2.png                # V2 回测曲线
 ├── LICENSE
 └── README.md
@@ -44,6 +45,9 @@ Easy-Quant/
 | 累积收益率 | 490.66% |
 | 夏普比率 | 1.68 |
 | 最大回撤 | 17.48% |
+| 数据区间 | 2021.01 — 2026.04 |
+
+![V1 回测曲线](assets/backtest_v1.png)
 
 ## 技术栈
 
