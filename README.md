@@ -44,6 +44,7 @@ Easy-Quant/
 | 累积收益率 | 490.66% |
 | 夏普比率 | 1.68 |
 | 最大回撤 | 17.48% |
+<img width="885" height="340" alt="image" src="https://github.com/user-attachments/assets/d34b4bad-d33c-491d-9b87-e35e85ae3d74" />
 
 ## 技术栈
 
