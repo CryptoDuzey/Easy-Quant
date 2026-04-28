@@ -12,6 +12,8 @@ Easy-Quant/
 │   ├── research_v2_final.py          # 信号生成：LightGBM 多因子截面轮动
 │   ├── research_v2_hmm_explore.py    # 实验记录：HMM 宏观择时（已弃用）
 │   └── trade_v2_final.py             # 回测执行引擎
+├── assets/
+│   └── backtest_v2.png                # V2 回测曲线
 ├── LICENSE
 └── README.md
 ```
@@ -28,6 +30,8 @@ Easy-Quant/
 | 夏普比率 | 2.60 |
 | 最大回撤 | 23.01% |
 | 数据区间 | 2021.01 — 2026.04 |
+
+![V2 回测曲线](assets/backtest_v2.png)
 
 **探索过程**：早期引入 HMM 隐马尔可夫模型进行大盘状态择时（`research_v2_hmm_explore.py`），回测显示 2022 年熊市中有效规避下跌，但在 2023–2025 震荡市中状态漂移严重、频繁踏空。最终版本放弃择时，回归截面 Alpha 挖掘本身。
 
