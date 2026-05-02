@@ -1,4 +1,6 @@
 # Easy-Quant V2: 回测执行引擎
+# 依赖: 由 walk-forward 生成的 alpha_signals_v2_final.csv (无未来函数)
+# 信号已确保每期只使用该期之前的数据训练, 回测引擎本身逐 bar 读取无泄露
 import pandas as pd
 import numpy as np
 
