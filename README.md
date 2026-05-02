@@ -15,7 +15,8 @@ Easy-Quant/
 │   └── trade_v2_final.py             # 回测执行引擎
 ├── assets/
 │   ├── backtest_v1.png               # V1 回测曲线
-│   └── backtest_v2.png               # V2 回测曲线
+│   ├── backtest_v2.png               # V2 回测曲线
+│   └── 收益.png                       # V1.0 经典双动量回测曲线
 ├── LICENSE
 └── README.md
 ```
@@ -86,6 +87,8 @@ Easy-Quant/
 - **Beta**: 0.76
 - **Sharpe Ratio (夏普比率)**: 0.43
 - **最大回撤 (Max Drawdown)**: 37.98%
+
+![V1.0 回测曲线](assets/收益.png)
 
 ### 📖 策略哲学 (Philosophy)
 在量化投资中，最危险的陷阱是"过度拟合"。Easy-Quant V1 放弃了所有复杂形态识别和晦涩的数学公式，回归 A 股量化交易的第一性原理：**截断亏损，让利润奔跑**。本策略基于经典的**双动量模型**构建，所有核心参数被解耦提取至 `init` 控制台，专为网格穷尽调参与二次开发设计。
