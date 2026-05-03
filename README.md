@@ -19,6 +19,8 @@ Easy-Quant/
 ├── assets/
 │   ├── backtest_v1.png               # V1 回测曲线
 │   ├── backtest_v2.png               # V2 回测曲线
+│   ├── v3_backtest_returns.png        # V3 回测曲线
+│   ├── v3_generalization.png          # V3 样本外泛化
 │   └── 收益.png                       # V1.0 经典双动量回测曲线
 ├── LICENSE
 └── README.md
@@ -44,6 +46,13 @@ Easy-Quant/
 | Alpha | 0.74 |
 | 胜率 | 51.28% (高盈亏比) |
 | 数据区间 | 2021.01 — 2026.05 |
+
+![V3 回测曲线](assets/v3_backtest_returns.png)
+
+![V3 样本外泛化](assets/v3_generalization.png)
+
+> 左图：训练期（2021-2026）回测曲线，年化 72.1%，夏普 2.06
+> 右图：完全样本外区间（2019-2020），夏普 2.48，证明模型泛化能力非过拟合
 
 **架构**：
 
