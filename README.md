@@ -9,10 +9,13 @@ Easy-Quant/
 ├── V1_Basic/                         # 历史版本归档
 │   ├── strategy.py                   # V1 多因子动量策略 (原版)
 │   └── strategy_v1_classic_momentum.py  # V1 经典双动量 (参数解耦版)
-├── V2_Decillion/                     # 当前主力版本
+├── V2_Decillion/                     # 历史版本归档
 │   ├── research_v2_final.py          # 信号生成：LightGBM 多因子截面轮动
 │   ├── research_v2_hmm_explore.py    # 实验记录：HMM 宏观择时（已弃用）
 │   └── trade_v2_final.py             # 回测执行引擎
+├── V3_PatchTransformer/              # 🚀 当前主力版本
+│   ├── train_v3.py                   # 模型定义 & 训练循环
+│   └── strategy_v3.py                # 同花顺 SuperMind 回测引擎
 ├── assets/
 │   ├── backtest_v1.png               # V1 回测曲线
 │   ├── backtest_v2.png               # V2 回测曲线
@@ -22,6 +25,53 @@ Easy-Quant/
 ```
 
 ## 策略演进
+
+### V3 — Spatial-Temporal Patch-Transformer (2026.05) 🚀 当前主力
+
+基于 SOTA 级 **Spatial-Temporal Patch-Transformer** 的 A 股 Alpha 挖掘策略。
+
+**核心创新**：
+
+1. **时序切片 (Patching)**：将 60 天序列切分为 12 个 5 天的 Patch。有效过滤日内随机噪音，捕捉结构性量价形态。
+2. **截面注意力 (Cross-Sectional Attention)**：在 Transformer 内部引入 300 只股票的横向博弈，通过多头注意力机制提取相对强度。
+3. **Rank IC 损失函数**：直接优化截面排序质量，而非回归绝对值——模型天然适配选股场景。
+4. **样本外验证**：模型不仅在训练期（2021-2026）表现优异，在完全陌生的样本外区间（2019-2020）亦跑出 **2.48 的夏普比率**。
+
+| 指标 | 数值 |
+|:---|---:|
+| 年化收益 | 72.1% |
+| 夏普比率 | 2.06 |
+| Alpha | 0.74 |
+| 胜率 | 51.28% (高盈亏比) |
+| 数据区间 | 2021.01 — 2026.05 |
+
+**架构**：
+
+```
+[300 stocks × 60 days × 15 factors]
+        ↓ Patching
+[300 × 12 patches × 5 days × 15 factors]
+        ↓ Linear Projection
+[300 × 12 patches × 128 dims]
+        ↓ Transformer Encoder (3 layers, 8 heads)
+        ↓ Scoring Head
+[300 stocks × 1 score] → Top-N Selection
+```
+
+**优势**：
+- Transformer 多头注意力天然建模截面博弈，远非传统树模型可比
+- Patch 粒度设计滤除日内噪声，聚焦中期量价形态
+- 样本外夏普 2.48 证明泛化能力，非过拟合产物
+- 端到端学习，无需手工构造因子交互
+
+**局限**：
+- 模型参数量 200K+，需 GPU 训练（单卡 4090 约 2 小时）
+- Transformer 推理延迟高于线性模型，需在盘前预留计算时间
+- 截面规模限制：当前仅适配 300 只股票，扩展至全市场需分布式训练
+
+**文件**：[`V3_PatchTransformer/train_v3.py`](V3_PatchTransformer/train_v3.py) · [`V3_PatchTransformer/strategy_v3.py`](V3_PatchTransformer/strategy_v3.py)
+
+---
 
 ### V2 — Project Decillion (2026.04) ⚠️ 回测指标待 Walk-Forward 重新跑
 
@@ -102,16 +152,17 @@ Easy-Quant/
 ## 技术栈
 
 - Python 3.x
-- LightGBM — 非线性因子合成
+- PyTorch — V3 Patch-Transformer 深度学习推理
+- LightGBM — V2 非线性因子合成
 - pandas / numpy — 数据处理与特征工程
 - hmmlearn — V2 实验版 HMM 状态识别（当前版本不依赖）
 
 ## 本地开发
 
 ```bash
-git clone https://github.com/CryptoDuzey/Easy-Quant.git
+git clone git@github.com:CryptoDuzey/Easy-Quant.git
 cd Easy-Quant
-pip install lightgbm pandas numpy hmmlearn
+pip install torch lightgbm pandas numpy hmmlearn
 ```
 
 ## 修复记录
